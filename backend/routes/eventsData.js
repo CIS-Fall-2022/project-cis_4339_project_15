@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
-
+require("dotenv").config();   // Require the dotenv
 //importing data model schemas
-let { eventdata } = require("../models/models"); 
+let { eventdata, organizationdata } = require("../models/models"); 
 
-//GET all entries
+const organizationName = process.env.ORGANIZATION_NAME;
+const organizationId = organizationdata.findOne( {organizationName: organizationName} )._id
+//GET all entries for the organization
 router.get("/", (req, res, next) => { 
-    eventdata.find( 
+    eventdata.find({'organization.organizationName': organizationName},
         (error, data) => {
             if (error) {
                 return next(error);
@@ -19,7 +21,7 @@ router.get("/", (req, res, next) => {
 
 //GET single entry by ID
 router.get("/id/:id", (req, res, next) => { 
-    eventdata.find({ _id: req.params.id }, (error, data) => {
+    eventdata.find({ _id: req.params.id, 'organization.organizationName': organizationName}, (error, data) => {
         if (error) {
             return next(error)
         } else {
@@ -33,10 +35,11 @@ router.get("/id/:id", (req, res, next) => {
 router.get("/search/", (req, res, next) => { 
     let dbQuery = "";
     if (req.query["searchBy"] === 'name') {
-        dbQuery = { eventName: { $regex: `^${req.query["eventName"]}`, $options: "i" } }
+        dbQuery = { eventName: { $regex: `^${req.query["eventName"]}`, $options: "i" }, 'organization.organizationName': organizationName}
     } else if (req.query["searchBy"] === 'date') {
         dbQuery = {
-            date:  req.query["eventDate"]
+            date:  req.query["eventDate"],
+            organization: {organizationName: organizationName}
         }
     };
     eventdata.find( 
@@ -54,7 +57,7 @@ router.get("/search/", (req, res, next) => {
 //GET events for which a client is signed up
 router.get("/client/:id", (req, res, next) => { 
     eventdata.find( 
-        { attendees: req.params.id }, 
+        { attendees: req.params.id, 'organization.organizationName': organizationName}, 
         (error, data) => { 
             if (error) {
                 return next(error);
