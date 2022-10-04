@@ -5,7 +5,7 @@ require("dotenv").config();   // Require the dotenv
 let { eventdata, organizationdata } = require("../models/models"); 
 
 const organizationName = process.env.ORGANIZATION_NAME;
-const organizationId = organizationdata.findOne( {organizationName: organizationName} )._id
+const retrieveOrganizationId = () => organizationdata.findOne({ "organizationName": organizationName});
 //GET all entries for the organization
 router.get("/", (req, res, next) => { 
     eventdata.find({'organization.organizationName': organizationName},
@@ -69,7 +69,9 @@ router.get("/client/:id", (req, res, next) => {
 });
 
 //POST
-router.post("/", (req, res, next) => { 
+router.post("/", async (req, res, next) => { 
+    let organizationData = await retrieveOrganizationId();
+    req.body.organization = {_id: organizationData._id, organizationName: organizationData.organizationName};
     eventdata.create( 
         req.body, 
         (error, data) => { 
@@ -83,7 +85,9 @@ router.post("/", (req, res, next) => {
 });
 
 //PUT
-router.put("/:id", (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
+    let organizationData = await retrieveOrganizationId();
+    req.body.organization = {_id: organizationData._id, organizationName: organizationData.organizationName};
     eventdata.findOneAndUpdate(
         { _id: req.params.id },
         req.body,
@@ -98,10 +102,12 @@ router.put("/:id", (req, res, next) => {
 });
 
 //PUT add attendee to event
-router.put("/addAttendee/:id", (req, res, next) => {
-    //only add attendee if not yet signed uo
+router.put("/addAttendee/:id", async (req, res, next) => {
+    //only add attendee if not yet signed uo'
+    let organizationData = await retrieveOrganizationId();
+    req.body.organization = {_id: organizationData._id, organizationName: organizationData.organizationName};
     eventdata.find( 
-        { _id: req.params.id, attendees: req.body.attendee }, 
+        { _id: req.params.id, attendees: req.body.attendee, organization: {organizationId: organizationId, organizationName, organizationName} }, 
         (error, data) => { 
             if (error) {
                 return next(error);
