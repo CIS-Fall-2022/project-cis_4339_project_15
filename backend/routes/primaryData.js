@@ -92,7 +92,7 @@ router.put("/:id", (req, res, next) => {
     );
 });
 
-index.delete('/deleteClient/:id', (req, res, next) => {
+router.delete('/deleteClient/:id', (req, res, next) => {
     primarydata.findByIdAndRemove({_id: req.params.id}, (error, data) => {
        if (error) { 
          return next(error);

@@ -133,7 +133,7 @@ router.put("/addAttendee/:id", async (req, res, next) => {
     
 });
 
-index.delete('/deleteEvent/:id', (req, res, next) => {
+router.delete('/deleteEvent/:id', (req, res, next) => {
     eventdata.findByIdAndRemove({_id: req.params.id}, (error, data) => {
        if (error) { 
          return next(error);
