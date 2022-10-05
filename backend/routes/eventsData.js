@@ -107,9 +107,8 @@ router.put("/:id", async (req, res, next) => {
 router.put("/addAttendee/:id", async (req, res, next) => {
     //only add attendee if not yet signed up'
     let organizationData = await retrieveOrganizationId();
-    req.body.organization = {_id: organizationData._id, organizationName: organizationData.organizationName};
     eventdata.find( 
-        { _id: req.params.id, attendees: req.body.attendee, organization: {organizationId: organizationId, organizationName, organizationName} }, 
+        { _id: req.params.id, attendees: req.body.attendee, organization: {organizationId: organizationData._id, organizationName: organizationData.organizationName} }, 
         (error, data) => { 
             if (error) {
                 return next(error);
