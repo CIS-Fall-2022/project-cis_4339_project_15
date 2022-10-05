@@ -60,7 +60,9 @@ router.get("/events/:id", (req, res, next) => {
 });
 
 //POST
-router.post("/", (req, res, next) => { 
+router.post("/", async (req, res, next) => { 
+    let organizationData = await retrieveOrganizationId();
+    req.body.organization = {_id: organizationData._id, organizationName: organizationData.organizationName};
     primarydata.create( 
         req.body,
         (error, data) => { 
@@ -77,7 +79,9 @@ router.post("/", (req, res, next) => {
 });
 
 //PUT update (make sure req body doesn't have the id)
-router.put("/:id", (req, res, next) => { 
+router.put("/:id", async(req, res, next) => { 
+    let organizationData = await retrieveOrganizationId();
+    req.body.organization = {_id: organizationData._id, organizationName: organizationData.organizationName};
     primarydata.findOneAndUpdate( 
         { _id: req.params.id }, 
         req.body,
