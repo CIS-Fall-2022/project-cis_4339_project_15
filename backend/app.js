@@ -32,7 +32,7 @@ app.use(morgan("dev"));
 
 //import routes
 const primaryDataRoute  = require('./routes/primaryData');
-const eventsDataRoute  = require('./routes/eventsData');
+const eventsDataRoute  = require('./routes/eventData');
 const organizationDataRoue = require('./routes/organizationData')
 
 //setup middle ware for routes
