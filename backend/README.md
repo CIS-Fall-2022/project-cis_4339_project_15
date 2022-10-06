@@ -210,6 +210,36 @@ eventData/
 ```
 /123 - With '123' being the ID of the event
 ```
+
+**DELETE Request: Delete a single event by id**
+```
+/deleteEvent/123
+```
+
+**Response**
+```
+{
+    "address": {
+        "line1": "",
+        "line2": "",
+        "city": "",
+        "county": "",
+        "zip": ""
+    },
+    "_id": "bd009ec0-43a6-11ed-9c63-5f434bc42d63",
+    "eventName": "plswork",
+    "services": [],
+    "date": "2212-02-22T00:00:00.000Z",
+    "organization": {
+        "_id": "b66b3980-4392-11ed-bf2a-0d13e6271c87",
+        "organizationName": "test1"
+    },
+    "description": "",
+    "attendees": [],
+    "__v": 0
+}
+```
+
 ###  2.2. primaryData
 All APIs regarding client data will be prefaced by __primaryData/__
 
@@ -366,6 +396,17 @@ primaryData/
 **PUT Request: Update Client Information**
 ```
 /123 - With '123' being the ID of the client
+```
+
+**DELETE Request: Delete a  single client by id**
+
+```
+/deleteClient/123
+```
+
+**Response** 
+```
+null
 ```
 ###  2.3. organizationData
 
