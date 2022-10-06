@@ -6,7 +6,7 @@ let { primarydata} = require("../models/models");
 
 //GET all entries
 router.get("/", (req, res, next) => { 
-    primarydata.find( 
+    primarydata.find({'organization.organizationName': organizationName},
         (error, data) => {
             if (error) {
                 return next(error);
@@ -20,7 +20,7 @@ router.get("/", (req, res, next) => {
 //GET single entry by ID
 router.get("/id/:id", (req, res, next) => {
     primarydata.find( 
-        { _id: req.params.id }, 
+        { _id: req.params.id, 'organization.organizationName': organizationName }, 
         (error, data) => {
             if (error) {
                 return next(error);
@@ -36,7 +36,7 @@ router.get("/id/:id", (req, res, next) => {
 router.get("/search/", (req, res, next) => { 
     let dbQuery = "";
     if (req.query["searchBy"] === 'name') {
-        dbQuery = { firstName: { $regex: `^${req.query["firstName"]}`, $options: "i" }, lastName: { $regex: `^${req.query["lastName"]}`, $options: "i" } }
+        dbQuery = { firstName: { $regex: `^${req.query["firstName"]}`, $options: "i" }, lastName: { $regex: `^${req.query["lastName"]}`, $options: "i" }, 'organization.organizationName': organizationName}
     } else if (req.query["searchBy"] === 'number') {
         dbQuery = {
             "phoneNumbers.primaryPhone": { $regex: `^${req.query["phoneNumbers.primaryPhone"]}`, $options: "i" }
@@ -60,7 +60,9 @@ router.get("/events/:id", (req, res, next) => {
 });
 
 //POST
-router.post("/", (req, res, next) => { 
+router.post("/", async (req, res, next) => { 
+    let organizationData = await retrieveOrganizationId();
+    req.body.organization = {_id: organizationData._id, organizationName: organizationData.organizationName};
     primarydata.create( 
         req.body,
         (error, data) => { 
@@ -77,7 +79,9 @@ router.post("/", (req, res, next) => {
 });
 
 //PUT update (make sure req body doesn't have the id)
-router.put("/:id", (req, res, next) => { 
+router.put("/:id", async(req, res, next) => { 
+    let organizationData = await retrieveOrganizationId();
+    req.body.organization = {_id: organizationData._id, organizationName: organizationData.organizationName};
     primarydata.findOneAndUpdate( 
         { _id: req.params.id }, 
         req.body,
