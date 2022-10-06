@@ -367,6 +367,17 @@ primaryData/
 ```
 /123 - With '123' being the ID of the client
 ```
+
+**DELETE Request: Delete a  single client by id**
+
+```
+/deleteClient/123
+```
+
+**Response** 
+```
+null
+```
 ###  2.3. organizationData
 
 All APIs regarding client data will be prefaced by __organizationData/__
