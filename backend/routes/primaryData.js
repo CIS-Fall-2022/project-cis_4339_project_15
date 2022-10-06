@@ -3,6 +3,9 @@ const router = express.Router();
 
 //importing data model schemas from models.js
 let { primarydata} = require("../models/models"); 
+//Reading from .env file
+const organizationName = process.env.ORGANIZATION_NAME;
+const retrieveOrganizationId = () => organizationdata.findOne({ "organizationName": organizationName});
 
 //GET all entries
 router.get("/", (req, res, next) => { 
@@ -97,13 +100,18 @@ router.put("/:id", async(req, res, next) => {
 
 //DELETE client
 router.delete('/deleteClient/:id', (req, res, next) => {
-    primarydata.findByIdAndRemove({_id: req.params.id}, (error, data) => {
-       if (error) { 
-         return next(error);
-       }  else {
-        res.json(data);
-    }
-       })
-  });
+    primarydata.findByIdAndRemove( 
+        { _id: req.params.id, 'organization.organizationName': organizationName }, 
+        (error, data) => {
+            if (error) {
+                return next(error);
+            } else {
+                res.json(data);
+            }
+        }
+      );
+      });
+
+
 
 module.exports = router;

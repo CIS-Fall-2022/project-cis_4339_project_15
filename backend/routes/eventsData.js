@@ -136,13 +136,16 @@ router.put("/addAttendee/:id", async (req, res, next) => {
 
 //DELETE event
 router.delete('/deleteEvent/:id', (req, res, next) => {
-    eventdata.findByIdAndRemove({_id: req.params.id}, (error, data) => {
-       if (error) { 
-         return next(error);
-       }  else {
-        res.json(data);
-    }
-       })
-  });
+    eventdata.findByIdAndRemove( 
+        { _id: req.params.id, 'organization.organizationName': organizationName }, 
+        (error, data) => {
+            if (error) {
+                return next(error);
+            } else {
+                res.json(data);
+            }
+        }
+      );
+      });
 
 module.exports = router;
