@@ -48,6 +48,8 @@
           background: linear-gradient(250deg, #C8102E 70%, #efecec 50.6%);
         "
       >
+      <!-- header text -->
+      <!-- add functionality in Sprint 3 to where this header displays the currently logged in organization -->
         <h1 class="mr-20 text-3xl text-white">Dataplatform</h1>
       </section>
       <div>

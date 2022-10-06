@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
 require("dotenv").config();   // Require the dotenv
-//importing data model schemas
-let { eventdata, organizationdata } = require("../models/models"); 
 
+//importing data model schemas from models.js
+let { eventdata, organizationdata } = require("../models/models"); 
+//Reading from .env file
 const organizationName = process.env.ORGANIZATION_NAME;
 const retrieveOrganizationId = () => organizationdata.findOne({ "organizationName": organizationName});
+
 //GET all entries for the organization
 router.get("/", (req, res, next) => { 
     eventdata.find({'organization.organizationName': organizationName},
@@ -103,7 +105,7 @@ router.put("/:id", async (req, res, next) => {
 
 //PUT add attendee to event
 router.put("/addAttendee/:id", async (req, res, next) => {
-    //only add attendee if not yet signed uo'
+    //only add attendee if not yet signed up'
     let organizationData = await retrieveOrganizationId();
     req.body.organization = {_id: organizationData._id, organizationName: organizationData.organizationName};
     eventdata.find( 
@@ -133,6 +135,7 @@ router.put("/addAttendee/:id", async (req, res, next) => {
     
 });
 
+//DELETE event
 router.delete('/deleteEvent/:id', (req, res, next) => {
     eventdata.findByIdAndRemove({_id: req.params.id}, (error, data) => {
        if (error) { 
