@@ -14,7 +14,10 @@ let organizationDataSchema = new Schema({
 },{
     collection: 'organizationData'
 })
-
+let attendeeSchema = new Schema({
+    attendee_id: {type: String},
+    added: {type: Date, default:Date.now}
+})
 //collection for intakeData
 let primaryDataSchema = new Schema({
     _id: { type: String, default: uuid.v1 },
@@ -100,7 +103,7 @@ let eventDataSchema = new Schema({
         type: String,
     },
     attendees: [{
-        type: String
+        type: attendeeSchema
     }],
     
 }, {
