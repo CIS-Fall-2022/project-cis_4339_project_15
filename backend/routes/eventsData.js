@@ -59,7 +59,7 @@ router.get("/search/", (req, res, next) => {
 //GET events for which a client is signed up
 router.get("/client/:id", (req, res, next) => { 
     eventdata.find( 
-        { attendees: req.params.id, 'organization.organizationName': organizationName}, 
+        { "attendees.attendees_id": req.params.id, 'organization.organizationName': organizationName}, 
         (error, data) => { 
             if (error) {
                 return next(error);
@@ -116,7 +116,7 @@ router.put("/addAttendee/:id", async (req, res, next) => {
                 if (data.length == 0) {
                     eventdata.updateOne(
                         { _id: req.params.id }, 
-                        { $push: { attendees: req.body.attendee } },
+                        { $push: { attendees: {attendee_id: req.body.attendee} } },
                         (error, data) => {
                             if (error) {
                                 consol

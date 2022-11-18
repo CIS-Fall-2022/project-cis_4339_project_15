@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 //importing data model schemas from models.js
-let { primarydata} = require("../models/models"); 
+let { primarydata, organizationdata} = require("../models/models"); 
 //Reading from .env file
 const organizationName = process.env.ORGANIZATION_NAME;
 const retrieveOrganizationId = () => organizationdata.findOne({ "organizationName": organizationName});
