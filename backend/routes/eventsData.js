@@ -148,4 +148,18 @@ router.delete('/deleteEvent/:id', (req, res, next) => {
       );
       });
 
+//GET new clients registered over the last two months
+router.get("/lastTwoMonths/:id", (req, res, next) => { 
+    eventdata.find({ _id: req.params.id, 'organization.organizationName': organizationName}, (error, data) => {
+        if (error) {
+            return next(error)
+        } else {
+            //Subtracting two months from the current time, in milliseconds
+            let minimumDate = Date.now() - 60*24*60*60*1000;    
+            //For each attendee, comparing the added time with the 
+            let filtered_data = data[0].attendees.filter(attendee => attendee.added.getTime() > minimumDate)
+            res.json(filtered_data);
+        }
+    })
+});
 module.exports = router;
