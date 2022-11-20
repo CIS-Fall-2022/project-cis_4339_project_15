@@ -16,7 +16,7 @@ router.get("/header/", (req, res, next) => {
             if (error) {
                 return next(error);
             } else {
-                res.json(data);
+                res.json(data[0]);
             }
         }
     );
