@@ -81,13 +81,16 @@
               <th class="p-4 text-left">Name</th>
               <th class="p-4 text-left">Phone number</th>
               <th class="p-4 text-left">City</th>
+              <th class="p-4 text-left">Action</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-300">
-            <tr @click="editClient(client._id)" v-for="client in queryData" :key="client._id">
-              <td class="p-2 text-left">{{ client.firstName + " " + client.lastName }}</td>
+            <tr v-for="client in queryData" :key="client._id">
+              <td @click="editClient(client._id)" class="p-2 text-left">{{ client.firstName + " " + client.lastName }}</td>
               <td class="p-2 text-left">{{ client.phoneNumbers[0].primaryPhone }}</td>
               <td class="p-2 text-left">{{ client.address.city }}</td>
+              <!--Button added to handle delete-->
+              <td class="p-2 text-left"><button @click="deleteClient(client._id)">Delete</button></td>
             </tr>
           </tbody>
         </table>
@@ -110,11 +113,7 @@ export default {
     };
   },
   mounted() {
-    let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/`;
-    axios.get(apiURL).then((resp) => {
-      this.queryData = resp.data;
-    });
-    window.scrollTo(0, 0);
+    this.deleteClientRefresh()
   },
   methods: {
     handleSubmitForm() {
@@ -148,6 +147,22 @@ export default {
     editClient(clientID) {
       this.$router.push({ name: "updateclient", params: { id: clientID } });
     },
+    //Method added to handle delete
+    deleteClient(clientid)
+    {
+      axios.delete("http://localhost:3000/primarydata/deleteClient/"+clientid).then(()=>{
+        this.deleteClientRefresh();
+      })
+    },
+    //Refreshes page after a delete
+    //Also handles mounting
+    deleteClientRefresh() {
+    let apiURL = import.meta.env.VITE_ROOT_API + `/primarydata/`;
+    axios.get(apiURL).then((resp) => {
+      this.queryData = resp.data;
+    });
+    window.scrollTo(0, 0);
+    }
   },
 };
 </script>

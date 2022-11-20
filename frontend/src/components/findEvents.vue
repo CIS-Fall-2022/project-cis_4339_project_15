@@ -69,13 +69,16 @@
               <th class="p-4 text-left">Event Name</th>
               <th class="p-4 text-left">Event Date</th>
               <th class="p-4 text-left">Event Address</th>
+              <th class="p-4 text-left">Action</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-300">
-            <tr @click="editEvent(event._id)" v-for="event in queryData" :key="event._id">
-              <td class="p-2 text-left">{{ event.eventName }}</td>
+            <tr v-for="event in queryData" :key="event._id">
+              <td @click="editEvent(event._id)" class="p-2 text-left">{{ event.eventName }}</td>
               <td class="p-2 text-left">{{ formattedDate(event.date) }}</td>
               <td class="p-2 text-left">{{ event.address.line1 }}</td>
+              <!--Button added to handle delete-->
+              <td class="p-2 text-left"><button @click="deleteEvent(event._id)">Delete</button></td>
             </tr>
           </tbody>
         </table>
@@ -98,12 +101,7 @@ export default {
     };
   },
   mounted() {
-    let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/`;
-    this.queryData = [];
-    axios.get(apiURL).then((resp) => {
-      this.queryData = resp.data;
-    });
-    window.scrollTo(0, 0);
+    this.deleteEventRefresh()
   },
   methods: {
     formattedDate(datetimeDB) {
@@ -140,6 +138,23 @@ export default {
     editEvent(eventID) {
       this.$router.push({ name: "eventdetails", params: { id: eventID } });
     },
+    //Method added to handle delete
+    deleteEvent(eventid)
+    {
+      axios.delete("http://localhost:3000/eventdata/deleteEvent/"+eventid).then(()=>{
+        this.deleteEventRefresh();
+      })
+    },
+    //Refreshes page after a delete
+    //Also handles mounting
+    deleteEventRefresh() {
+    let apiURL = import.meta.env.VITE_ROOT_API + `/eventdata/`;
+    this.queryData = [];
+    axios.get(apiURL).then((resp) => {
+      this.queryData = resp.data;
+    });
+    window.scrollTo(0, 0);
+    }
   },
 };
 </script>
