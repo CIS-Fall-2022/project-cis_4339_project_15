@@ -52,7 +52,7 @@ export default {
               phoneNumbers: [
                 {
                   primaryPhone: "",
-                  seondaryPhone: "",
+                  secondaryPhone: "",
                 },
               ],
               address: {

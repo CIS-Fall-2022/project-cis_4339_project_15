@@ -101,6 +101,7 @@ export default {
         alert("Update has been saved.");
         this.$router.back().catch((error) => {
           console.log(error);
+          alert("An Error was found.");
         });
       });
     },
@@ -117,11 +118,19 @@ export default {
             )
             .then((resp) => {
               let data = resp.data;
+              var duplicates = 0;
               for (let i = 0; i < data.length; i++) {
+                for(let x = 0; x < this.clientEvents.length; x++) {
+                  if((this.clientEvents[x].eventName.includes(this.eventsChosen[0].eventName))===true)
+                  {duplicates += 1;}
+                }
                 this.clientEvents.push({
                   eventName: data[i].eventName,
-                });
+                }
+                );
               }
+              if (duplicates > 0)
+              alert("Duplicate event added.");
             });
         });
       });
