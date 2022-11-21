@@ -48,9 +48,7 @@
           background: linear-gradient(250deg, #C8102E 70%, #efecec 50.6%);
         "
       >
-      <!-- header text -->
-      <!-- add functionality in Sprint 3 to where this header displays the currently logged in organization -->
-        <h1 class="mr-20 text-3xl text-white">Dataplatform</h1>
+        <h1 class="mr-20 text-3xl text-white" v-if="!loading">{{ organizationName.organizationName }}</h1>
       </section>
       <div>
         <router-view></router-view>
@@ -60,8 +58,28 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "App",
+  data() {
+    return {
+      organizationName: null,
+      loading: false
+    }
+  },  
+  methods: {
+    async getOrganizationName() {
+      this.loading = true
+      let resp = await axios.get(import.meta.env.VITE_ROOT_API + `/organizationData/header/`);
+      console.log(resp)
+      this.organizationName = resp.data;
+      this.loading = false
+    }
+  },
+  created() {
+    this.getOrganizationName()
+  }
 };
 </script>
 
