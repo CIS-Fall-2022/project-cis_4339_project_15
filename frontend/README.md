@@ -4,7 +4,6 @@ This project uses [VueJS 3](https://vuejs.org/) with [Vite](https://vitejs.dev/)
 For form validation [Vuelidate](https://vuelidate-next.netlify.app/) is used.
 ## Project setup
 ```
-cd frontend
 npm install
 ```
 
