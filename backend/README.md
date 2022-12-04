@@ -18,14 +18,17 @@ This implementation is for NodeJS based on [Express](https://expressjs.com/) and
 
 ## Project setup
 ```
+cd backend
 npm install
+npm start app.js
 ```
 
 ### Before startup 
 Setup a .env file with the following variables, e.g.:
 
 ```
-MONGO_URL = mongodb+srv://<username>:<password>@cluster0.abcdc.mongodb.net/dbname
+MONGO_URL = mongodb+srv://Global1:1234@cluster0.rulkd0x.mongodb.net/?retryWrites=true&w=majority
+ORGANIZATION_NAME = test1
 ```
 
 ### Compiles and hot-reloads for development
