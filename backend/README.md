@@ -6,11 +6,10 @@
     - [Compiles and hot-reloads for development](#compiles-and-hot-reloads-for-development)
 - [Project 15 Backend API Documentation](#project-15-backend-api-documentation)
   - [1. Overview](#1-overview)
-  - [2. Resources](#2-resources)
+  - [2. Testing](#2-testing)
     - [2.1. eventData](#21-eventdata)
     - [2.2. primaryData](#22-primarydata)
     - [2.3. organizationData](#23-organizationdata)
-  - [3. Testing](#3-testing)
 
 # Backend
 
@@ -20,7 +19,6 @@ This implementation is for NodeJS based on [Express](https://expressjs.com/) and
 ```
 cd backend
 npm install
-npm start app.js
 ```
 
 ### Before startup 
@@ -33,15 +31,15 @@ ORGANIZATION_NAME = test1
 
 ### Compiles and hot-reloads for development
 ```
-npm start
+npm start app.js
 ```
 # Project 15 Backend API Documentation
 
 ## 1. Overview
-text here
+This web based application is ran locally, however all data is stored on the cloud. Additionally, this application was made for CIS4339 at University of Houston in the fall of 2022.
 
-## 2. Resources
-text here
+## 2. Testing
+Testing was done using the organization named test1. 
 
 ###  2.1. eventData
 All APIs regarding client data will be prefaced by __eventData/__
@@ -434,6 +432,3 @@ http://localhost:5000/organizationData/header
     }
 ]
 ```
-
-## 3. Testing
-text here
